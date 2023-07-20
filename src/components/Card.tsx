@@ -9,7 +9,7 @@ const Card = ({ ipData }: IpProps) => {
 	return (
 		<article className="p-8">
 			<div
-				className="bg-white rounded-xl p-8 shadow-xl max-w-6xl mx-auto grid grid-cols-1 gap-5 text-center md:grid-cols-2 lg:grid-cols-4 lg:gap-0 lg:text-left -mb-10 relative lg:-mb-32"
+				className="bg-white rounded-xl p-8 shadow-xl max-w-6xl mx-auto grid grid-cols-1 gap-5 text-center md:grid-cols-2 lg:grid-cols-4 lg:gap-0 lg:text-left mb-10 relative lg:-mb-32"
 				style={{
 					zIndex: 40,
 				}}>
@@ -24,7 +24,7 @@ const Card = ({ ipData }: IpProps) => {
 
 				{location && (
 					<>
-						<div className="lg:border-r lg:border-slate-400 p-6">
+						<div className="lg:border-r lg:border-slate-400 lg:p-6">
 							<h2 className="text-sm uppercase text-slate-600">
 								Location
 							</h2>
@@ -43,7 +43,7 @@ const Card = ({ ipData }: IpProps) => {
 					</>
 				)}
 
-				<div className="p-6">
+				<div className="lg:p-6">
 					<h2 className="text-sm uppercase text-slate-600">
 						ISP
 					</h2>

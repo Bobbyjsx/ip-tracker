@@ -89,7 +89,7 @@ function Home() {
 	}, [address]);
 
 	return (
-		<div className="App bg-hero-pattern w-full h-screen flex flex-col justify-center align-middle">
+		<div className="bg-hero-pattern w-full lg:h-screen h-full px-2 flex flex-col justify-center align-middle">
 			<div
 				className="flex flex-col shadow-none border-none b-transparent h-64 mx-0 px-0 "
 				id="head">
@@ -104,7 +104,7 @@ function Home() {
 					loading={loading}
 				/>
 				{storedIp && (
-					<p className="font-semibold flex justify-center text-xl text-white py-11">
+					<p className="font-semibold flex justify-center text-xl text-white py-11 w-full text-center ">
 						Your IP Address is : {storedIp}
 					</p>
 				)}
