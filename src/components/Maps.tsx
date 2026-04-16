@@ -16,7 +16,7 @@ const neonIcon = L.divIcon({
   iconAnchor: [16, 16],
 });
 
-interface MapProps {
+interface MapHUDProps {
   location: {
     location: {
       lat: number;
@@ -30,20 +30,22 @@ function ChangeView({ center }: { center: [number, number] }) {
   const map = useMap();
   useEffect(() => {
     if (center[0] !== undefined && center[1] !== undefined) {
-      map.setView(center, 13);
+      map.setView(center, 13, {
+        animate: true,
+      });
     }
   }, [center, map]);
   return null;
 }
 
-const Map = ({ location }: MapProps) => {
+const MapHUD = ({ location }: MapHUDProps) => {
   // Defensive check for the location data
   const lat = location?.location?.lat;
   const lng = location?.location?.lng;
 
   if (lat === undefined || lng === undefined) {
     return (
-      <div className="w-full h-[60vh] bg-terminal-card/5 flex items-center justify-center border-t border-terminal-secondary/10">
+      <div className="w-full h-[60vh] bg-terminal-card/5 flex items-center justify-center border-t border-terminal-accent/20">
         <span className="text-xs uppercase tracking-[0.4em] text-red-500/50">
           Invalid Coordinates
         </span>
@@ -55,11 +57,17 @@ const Map = ({ location }: MapProps) => {
 
   return (
     <div className="relative w-full h-[40dvh] sm:h-[60dvh] lg:h-[70dvh] brightness-90">
+      {/*
+        Using a key here ensures that if the component is mounted twice in the same tick
+        (React 19 Strict Mode), Leaflet has a clean slate.
+        However, we keep the key stable to allow ChangeView to handle panning.
+      */}
       <MapContainer
+        key="terminal-map-instance"
         center={position}
         zoom={13}
         scrollWheelZoom={true}
-        className="w-full h-full bg-terminal-bg"
+        className="w-full h-full bg-terminal-bg border-"
         zoomControl={false}
       >
         <TileLayer
@@ -72,7 +80,7 @@ const Map = ({ location }: MapProps) => {
       </MapContainer>
 
       {/* Decorative HUD overlay for map */}
-      <div className="absolute inset-0 pointer-events-none border-[10px] border-terminal-bg/50 z-[1000]">
+      <div className="absolute inset-0 pointer-events-none border-[10px]- border-terminal-bg/50- z-[1000]">
         <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-terminal-accent/80 shadow-[0_0_15px_rgba(0,243,255,0.4)]"></div>
         <div className="absolute top-0 right-0 w-12 h-12 border-t-4 border-r-4 border-terminal-accent/80 shadow-[0_0_15px_rgba(0,243,255,0.4)]"></div>
         <div className="absolute bottom-0 left-0 w-12 h-12 border-b-4 border-l-4 border-terminal-accent/80 shadow-[0_0_15px_rgba(0,243,255,0.4)]"></div>
@@ -92,4 +100,4 @@ const Map = ({ location }: MapProps) => {
   );
 };
 
-export default Map;
+export default MapHUD;
