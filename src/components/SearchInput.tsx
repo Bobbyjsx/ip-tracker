@@ -1,91 +1,86 @@
 import React, { ChangeEvent, useState } from "react";
-import Loader from "./loader/Loader";
-import { ModalProps } from "./Modal";
+import { Search, Loader2, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface SearchInputProps {
-	address: string;
-	setAddress: React.Dispatch<React.SetStateAction<string>>;
-	modal: ModalProps["modal"];
-	setModal: React.Dispatch<
-		React.SetStateAction<ModalProps["modal"]>
-	>;
-	loading: boolean;
+  address: string;
+  setAddress: (value: string) => void;
+  loading: boolean;
+  setModal: (value: any) => void;
 }
 
 const SearchInput: React.FC<SearchInputProps> = ({
-	address,
-	setAddress,
-	modal,
-	setModal,
-	loading,
+  address,
+  setAddress,
+  loading,
+  setModal,
 }) => {
-	const [search, setSearch] = useState(address);
+  const [search, setSearch] = useState("");
 
-	const handleIpInput = (e: ChangeEvent<HTMLInputElement>) => {
-		setSearch(e.target.value);
-	};
+  const handleIpInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		if (!search) {
-			setModal({
-				modalOpen: true,
-				errorMsg: "Input cannot be empty...",
-			});
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!search.trim()) {
+      setModal({
+        modalOpen: true,
+        errorMsg: "TARGET SYSTEM UNDEFINED: INPUT REQUIRED",
+      });
+      return;
+    }
+    setAddress(search);
+    setSearch("");
+  };
 
-			setTimeout(() => {
-				setModal({
-					modalOpen: false,
-					errorMsg: "Input cannot be empty...",
-				});
-			}, 5000);
-		} else {
-			setAddress(search);
-			setSearch("");
-		}
-	};
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="relative z-50 w-full max-w-xl mx-auto px-4"
+    >
+      <form
+        onSubmit={handleSubmit}
+        className="glass-hud p-1 flex items-center rounded-lg terminal-border group transition-all duration-300 hover:border-terminal-accent"
+      >
+        <div className="pl-4 text-terminal-secondary group-hover:text-terminal-accent transition-colors">
+          <Search size={20} />
+        </div>
+        <input
+          name="IP"
+          type="text"
+          value={search}
+          placeholder={loading ? "INITIALIZING SCAN..." : "ENTER IP OR DOMAIN..."}
+          onChange={handleIpInput}
+          autoComplete="off"
+          className="flex-1 bg-transparent h-12 md:h-14 font-mono text-base md:text-lg px-3 md:px-4 outline-none text-terminal-accent placeholder:text-terminal-accent/30 min-w-0"
+        />
 
-	return (
-		<form
-			className="flex flex-row justify-center align-middle"
-			onSubmit={handleSubmit}>
-			<input
-				name="IP"
-				type="text"
-				value={search}
-				placeholder={
-					loading ? "Loading..." : "Input IP Address..."
-				}
-				onChange={handleIpInput}
-				className={`bg-gray-300 w-96 h-12 ${
-					loading ? "cursor-not-allowed" : "cursor-text"
-				} rounded-l-lg font-semibold text-lg px-4 outline-none`}
-			/>
+        <button
+          type="submit"
+          disabled={loading}
+          className="h-10 w-10 md:h-12 md:w-12 flex items-center justify-center bg-terminal-secondary/20 rounded-md hover:bg-terminal-accent hover:text-terminal-bg transition-all duration-300 disabled:opacity-50 group-hover:bg-terminal-secondary/30 shrink-0"
+        >
 
-			{loading ? (
-				<div className="h-12 w-12 rounded-r-lg bg-indigo-700 cursor-not-allowed">
-					<Loader />
-				</div>
-			) : (
-				<button
-					type="submit"
-					className="h-12 w-12 bg-slate-900 rounded-r-lg hover:pl-3 hover:bg-indigo-700 transition-all delay-75 duration-300 ease-linear">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="30"
-						height="30"
-						fill="white"
-						className="bi bi-arrow-right"
-						viewBox="0 0 16 16">
-						<path
-							fillRule="evenodd"
-							d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
-						/>
-					</svg>
-				</button>
-			)}
-		</form>
-	);
+          {loading ? (
+            <Loader2 className="animate-spin text-terminal-accent" size={24} />
+          ) : (
+            <ArrowRight size={24} className="text-terminal-accent group-hover:text-terminal-bg" />
+          )}
+        </button>
+      </form>
+      
+      <div className="mt-2 flex justify-between px-2">
+        <span className="text-[10px] uppercase tracking-widest text-terminal-accent/50 font-mono">
+          System: Net-Ops v2.0.4
+        </span>
+        <span className="text-[10px] uppercase tracking-widest text-terminal-accent/50 font-mono">
+          Status: {loading ? "Scanning..." : "Ready"}
+        </span>
+      </div>
+    </motion.div>
+  );
 };
 
 export default SearchInput;

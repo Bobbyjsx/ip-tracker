@@ -1,13 +1,73 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #0B0C10;
+    color: #C5C6C7;
+    font-family: 'Space Mono', monospace;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Custom scrollbar for terminal feel */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0B0C10;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1F2833;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #45A29E;
+}
+
+/* Glassmorphism effects */
+.glass-hud {
+    background: rgba(18, 25, 33, 0.75);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 243, 255, 0.4);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), 0 0 10px rgba(0, 243, 255, 0.1);
+}
+
+.terminal-border {
+    border: 1px solid rgba(0, 243, 255, 0.6);
+    position: relative;
+    box-shadow: inset 0 0 15px rgba(0, 243, 255, 0.1);
+}
+
+.terminal-border::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 1px solid #00F3FF;
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.glow-accent {
+    text-shadow: 0 0 15px rgba(0, 243, 255, 0.8), 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.leaflet-container {
+    background-color: #050608 !important;
+}
+
+
+.map-tiles-filter {
+    filter: grayscale(70%) !important;
 }
